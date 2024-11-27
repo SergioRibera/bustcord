@@ -3,7 +3,11 @@ name = "bustcord"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
+[workspace]
+resolver = "2"
+members = ["crates/app", "crates/common", "crates/components", "crates/layouts"]
+
+[workspace.dependencies]
 egui = "0.29"
 eframe = { version = "0.29", default-features = false, features = [
     "accesskit",
@@ -11,3 +15,8 @@ eframe = { version = "0.29", default-features = false, features = [
     "glow",
     "persistence",
 ] }
+
+[dependencies]
+egui.workspace = true
+eframe.workspace = true
+app = { path = "./crates/app" }
