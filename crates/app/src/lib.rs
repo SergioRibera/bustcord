@@ -1,17 +1,7 @@
-pub struct MainApp {
-    label: String,
-    value: f32,
-}
+use egui::Label;
 
-impl Default for MainApp {
-    fn default() -> Self {
-        Self {
-            // Example stuff:
-            label: "Hello World!".to_owned(),
-            value: 2.7,
-        }
-    }
-}
+#[derive(Default)]
+pub struct MainApp;
 
 impl MainApp {
     /// Called once before the first frame.
@@ -26,25 +16,12 @@ impl MainApp {
 impl eframe::App for MainApp {
     /// Called each time the UI needs repainting, which may be many times per second.
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        // Put your widgets into a `SidePanel`, `TopBottomPanel`, `CentralPanel`, `Window` or `Area`.
-        // For inspiration and more examples, go to https://emilk.github.io/egui
-        egui::CentralPanel::default().show(ctx, |ui| {
-            // The central panel the region left after adding TopPanel's and SidePanel's
-            ui.heading("eframe template");
-
-            ui.horizontal(|ui| {
-                ui.label("Write something: ");
-                ui.text_edit_singleline(&mut self.label);
-            });
-
-            ui.add(egui::Slider::new(&mut self.value, 0.0..=10.0).text("value"));
-            if ui.button("Increment").clicked() {
-                self.value += 1.0;
-            }
-
-            ui.with_layout(egui::Layout::bottom_up(egui::Align::LEFT), |ui| {
-                egui::warn_if_debug_build(ui);
-            });
-        });
+        layouts::home(
+            ctx,
+            components::Servers,
+            Label::new("Chats"),
+            Label::new("Content"),
+            None::<Label>,
+        );
     }
 }

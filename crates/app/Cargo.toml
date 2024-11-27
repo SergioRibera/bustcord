@@ -6,3 +6,5 @@ edition = "2021"
 [dependencies]
 egui.workspace = true
 eframe.workspace = true
+layouts = { path = "../layouts" }
+components = { path = "../components" }
