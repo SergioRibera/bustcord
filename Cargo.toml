@@ -5,10 +5,17 @@ edition = "2021"
 
 [workspace]
 resolver = "2"
-members = ["crates/app", "crates/common", "crates/components", "crates/layouts"]
+members = [
+    "crates/app",
+    "crates/common",
+    "crates/components",
+    "crates/egui_css",
+    "crates/layouts",
+]
 
 [workspace.dependencies]
 egui = "0.29"
+egui_css = { path = "./crates/egui_css" }
 eframe = { version = "0.29", default-features = false, features = [
     "accesskit",
     "default_fonts",
@@ -19,4 +26,5 @@ eframe = { version = "0.29", default-features = false, features = [
 [dependencies]
 egui.workspace = true
 eframe.workspace = true
+egui_css.workspace = true
 app = { path = "./crates/app" }

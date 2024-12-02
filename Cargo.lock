@@ -467,6 +467,7 @@ dependencies = [
  "app",
  "eframe",
  "egui",
+ "egui_css",
 ]
 
 [[package]]
@@ -838,6 +839,15 @@ dependencies = [
  "web-time",
  "webbrowser",
  "winit",
+]
+
+[[package]]
+name = "egui_css"
+version = "0.1.0"
+dependencies = [
+ "egui",
+ "smallvec",
+ "taffy",
 ]
 
 [[package]]
@@ -1216,6 +1226,12 @@ checksum = "0a4e1951bbd9434a81aa496fe59ccc2235af3820d27b85f9314e279609211e2c"
 dependencies = [
  "gl_generator",
 ]
+
+[[package]]
+name = "grid"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "36119f3a540b086b4e436bb2b588cf98a68863470e0e880f4d0842f112a3183a"
 
 [[package]]
 name = "hashbrown"
@@ -2315,6 +2331,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "taffy"
+version = "0.6.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4d0eb2760c1b126d8147f339b2359cc2e4c673f0630986b720f261d9fb297030"
+dependencies = [
+ "arrayvec",
+ "grid",
+ "num-traits",
+ "serde",
+ "slotmap",
 ]
 
 [[package]]

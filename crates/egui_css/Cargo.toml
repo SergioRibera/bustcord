@@ -1,0 +1,9 @@
+[package]
+name = "egui_css"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+egui.workspace = true
+smallvec = "1.13.2"
+taffy = "0.6.2"
