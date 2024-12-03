@@ -9,6 +9,10 @@ serde = ["smallvec/serde", "taffy/serde"]
 grid = ["taffy/grid"]
 flexbox = ["taffy/flexbox"]
 
+[[bench]]
+name = "parser"
+harness = false
+
 [dependencies]
 color = { version = "0.1.0", default-features = false, features = ["std"] }
 smallvec = { version = "1.13.2", features = ["const_new"] }
@@ -16,3 +20,6 @@ taffy = { version = "0.6.2", default-features = false, features = [
     "taffy_tree",
     "block_layout",
 ] }
+
+[dev-dependencies]
+divan = "0.1.16"
