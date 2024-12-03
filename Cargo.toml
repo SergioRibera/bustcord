@@ -8,7 +8,7 @@ resolver = "2"
 members = [
     "crates/app",
     "crates/common",
-    "crates/components",
+    "crates/components", "crates/cssengine",
     "crates/egui_css",
     "crates/layouts",
 ]
