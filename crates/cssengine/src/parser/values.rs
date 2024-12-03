@@ -1,10 +1,10 @@
-use color::DynamicColor;
+use csscolorparser::Color;
 use smallvec::SmallVec;
 use taffy::{AlignContent, AlignItems, Display, FlexDirection, FlexWrap, JustifyContent, Position};
 
 use crate::{
     BorderDef, BoxShadow, CursorIcon, Pct, Px, PxPct, PxPctAuto, TextOverflow, TextStyle,
-    Transition, Weight,
+    Transition, Weight, NAMED_COLORS,
 };
 
 pub const fn parse_display(s: &str) -> Option<Display> {
@@ -91,8 +91,10 @@ pub fn parse_f32(s: &str) -> Option<f32> {
     s.parse::<f32>().ok()
 }
 
-pub fn parse_color(s: &str) -> Option<DynamicColor> {
-    color::parse_color(s).ok()
+pub fn parse_color(s: &str) -> Option<Color> {
+    csscolorparser::parse(s)
+        .ok()
+        .or_else(|| NAMED_COLORS.get(&s).cloned())
 }
 
 pub fn parse_px(s: &str) -> Option<Px> {

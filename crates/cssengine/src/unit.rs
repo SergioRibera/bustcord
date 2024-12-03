@@ -1,9 +1,11 @@
+mod color;
 mod cursor;
 mod px;
 mod text;
 
-use color::DynamicColor;
+use csscolorparser::Color;
 
+pub use color::NAMED_COLORS;
 pub use cursor::*;
 pub use px::*;
 pub use text::{Style as TextStyle, TextOverflow, Weight};
@@ -15,13 +17,13 @@ pub struct Auto;
 #[derive(Clone, Debug, Default)]
 pub struct BorderDef {
     pub width: Option<PxPct>,
-    pub color: Option<DynamicColor>,
+    pub color: Option<Color>,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct BoxShadow {
     pub blur_radius: PxPct,
-    pub color: DynamicColor,
+    pub color: Color,
     pub spread: PxPct,
     pub h_offset: PxPct,
     pub v_offset: PxPct,
@@ -31,7 +33,7 @@ impl Default for BoxShadow {
     fn default() -> Self {
         Self {
             blur_radius: PxPct::Px(0.),
-            color: color::parse_color("#000").unwrap(),
+            color: Color::from_rgba8(0, 0, 0, 255),
             spread: PxPct::Px(0.),
             h_offset: PxPct::Px(0.),
             v_offset: PxPct::Px(0.),

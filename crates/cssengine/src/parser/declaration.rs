@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use color::DynamicColor;
+use csscolorparser::Color;
 use taffy::{AlignContent, AlignItems, Display, FlexDirection, FlexWrap, JustifyContent, Position};
 
 use crate::{
@@ -56,9 +56,9 @@ gen_declaration! {
     "border-right" => parse_px BorderRight Px;
     "border-bottom" => parse_px BorderBottom Px;
     "border-radius" => parse_px_pct BorderRadius PxPct;
-    "outline-color" => parse_color OutlineColor DynamicColor;
+    "outline-color" => parse_color OutlineColor Color;
     "outline" => parse_px Outline Px;
-    "border-color" => parse_color BorderColor DynamicColor;
+    "border-color" => parse_color BorderColor Color;
     "padding" => parse_px_pct Padding PxPct;
     "padding-left" => parse_px_pct PaddingLeft PxPct;
     "padding-top" => parse_px_pct PaddingTop PxPct;
@@ -75,14 +75,14 @@ gen_declaration! {
     "bottom" => parse_pxpctauto InsetBottom PxPctAuto;
     "z-index" => parse_i32 ZIndex i32;
     "cursor" => parse_cursor_style Cursor CursorIcon;
-    "color" => parse_color Color DynamicColor;
-    "background-color" => parse_color BackgroundColor DynamicColor;
+    "color" => parse_color Color Color;
+    "background-color" => parse_color BackgroundColor Color;
     "box-shadow" => parse_box_shadow BoxShadow BoxShadow;
     "font-size" => parse_px FontSize Px;
     "font-family" => to_owned FontFamily String;
     "font-weight" => parse_font_weight FontWeight Weight;
     "font-style" => parse_font_style FontStyle TextStyle;
-    "caret-color" => parse_color CursorColor DynamicColor;
+    "caret-color" => parse_color CursorColor Color;
     "text-wrap" => parse_text_overflow TextOverflow TextOverflow;
     "line-height" => parse_f32 LineHeight f32;
     "aspect-ratio" => parse_f32 AspectRatio f32;

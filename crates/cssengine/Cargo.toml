@@ -14,7 +14,7 @@ name = "parser"
 harness = false
 
 [dependencies]
-color = { version = "0.1.0", default-features = false, features = ["std"] }
+csscolorparser = { version = "0.7.0", default-features = false }
 smallvec = { version = "1.13.2", features = ["const_new"] }
 taffy = { version = "0.6.2", default-features = false, features = [
     "taffy_tree",

@@ -11,7 +11,7 @@ fn main() {
         }
 
         #super-id {
-          color: #000;
+          color: #323232;
         }
     "#;
 

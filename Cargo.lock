@@ -614,12 +614,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "color"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ce566db61cc9ebcb00cf6f338ec87d1d030727152fd3661caad38d0113f76c11"
-
-[[package]]
 name = "combine"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -740,10 +734,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "csscolorparser"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46f9a16a848a7fb95dd47ce387ac1ee9a6df879ba784b815537fcd388a1a8288"
+
+[[package]]
 name = "cssengine"
 version = "0.1.0"
 dependencies = [
- "color",
+ "csscolorparser",
  "divan",
  "smallvec",
  "taffy",
