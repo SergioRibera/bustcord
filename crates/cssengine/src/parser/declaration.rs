@@ -3,6 +3,9 @@ use std::borrow::Cow;
 use csscolorparser::Color;
 use taffy::{AlignContent, AlignItems, Display, FlexDirection, FlexWrap, JustifyContent, Position};
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 use crate::{
     BorderDef, BoxShadow, CursorIcon, Px, PxPct, PxPctAuto, TextOverflow, TextStyle, Transition,
     Weight,
@@ -11,6 +14,7 @@ use crate::{
 macro_rules! gen_declaration {
     ($($prop:expr => $fun:ident $item:ident $t:ty;)*) => {
         #[derive(Clone, Debug, Default)]
+        #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
         pub enum Declaration {
             #[default]
             None,

@@ -1,4 +1,8 @@
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum TextOverflow {
     Wrap,
     Clip,
@@ -7,6 +11,7 @@ pub enum TextOverflow {
 
 /// Allows italic or oblique faces to be selected.
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Hash)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum Style {
     /// A face that is neither italic not obliqued.
     Normal,
@@ -25,6 +30,7 @@ impl Default for Style {
 
 /// Specifies the weight of glyphs in the font, their degree of blackness or stroke thickness.
 #[derive(Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Debug, Hash)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Weight(pub u16);
 
 impl Default for Weight {

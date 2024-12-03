@@ -738,6 +738,9 @@ name = "csscolorparser"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "46f9a16a848a7fb95dd47ce387ac1ee9a6df879ba784b815537fcd388a1a8288"
+dependencies = [
+ "serde",
+]
 
 [[package]]
 name = "cssengine"
@@ -745,6 +748,7 @@ version = "0.1.0"
 dependencies = [
  "csscolorparser",
  "divan",
+ "serde",
  "smallvec",
  "taffy",
 ]

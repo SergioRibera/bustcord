@@ -1,13 +1,18 @@
 use taffy::style::{Dimension, LengthPercentage, LengthPercentageAuto};
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 use super::Auto;
 
 /// A pixel value
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Px(pub f32);
 
 /// A percent value
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Pct(pub f32);
 impl<T> From<T> for Pct
 where
@@ -28,6 +33,7 @@ where
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum PxPct {
     Px(f32),
     Pct(f32),
@@ -49,6 +55,7 @@ where
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum PxPctAuto {
     Px(f32),
     Pct(f32),

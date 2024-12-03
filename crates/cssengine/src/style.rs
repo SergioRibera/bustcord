@@ -3,6 +3,9 @@ use smallvec::SmallVec;
 use crate::declaration::Declaration;
 use crate::{css_to_rules, Selector};
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 #[cfg(feature = "tailwind_colors")]
 use crate::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 
@@ -14,9 +17,11 @@ use crate::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 /// # Example
 /// ```
 /// let css = ".example { color: red; }";
-/// let stylesheet = StyleSheet::from_css(css);
+/// let stylesheet = cssengine::StyleSheet::from_css(css);
 /// ```
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct StyleSheet<'a> {
+    #[cfg_attr(feature = "serde", serde(borrow))]
     rules: SmallVec<[(Selector<'a>, SmallVec<[Declaration; 32]>); 32]>,
 }
 
@@ -38,7 +43,7 @@ impl<'a> StyleSheet<'a> {
     /// # Example
     /// ```
     /// let css = ".example { color: red; }";
-    /// let stylesheet = StyleSheet::from_css(css);
+    /// let stylesheet = cssengine::StyleSheet::from_css(css);
     /// ```
     pub fn from_css(input: &'a str) -> Self {
         let rules = css_to_rules(input)
@@ -72,7 +77,7 @@ impl<'a> StyleSheet<'a> {
     /// # Example
     /// ```
     /// let css = ".example { color: red; }";
-    /// let mut stylesheet = StyleSheet::from_css(css);
+    /// let mut stylesheet = cssengine::StyleSheet::from_css(css);
     /// if let Some(styles) = stylesheet.get_styles(".example") {
     ///     println!("Styles: {:?}", styles);
     /// }

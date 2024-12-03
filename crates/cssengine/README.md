@@ -35,10 +35,10 @@ To enable additional features:
 ```toml
 [features]
 default = ["grid", "flexbox"]
-serde = ["smallvec/serde", "taffy/serde"]
 grid = ["taffy/grid"]
 flexbox = ["taffy/flexbox"]
 tailwind_colors = []
+serde = ["dep:serde", "smallvec/serde", "taffy/serde", "csscolorparser/serde"]
 ```
 
 ## Usage

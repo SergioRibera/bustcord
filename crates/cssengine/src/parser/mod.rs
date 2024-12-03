@@ -12,6 +12,9 @@ use lexer::Token;
 pub use analyzer::{analyze_tokens, SyntaxError};
 pub use lexer::Lexer;
 
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 /// Parser that turns lexer tokens into `ParserToken` and builds
 /// a `Rule`
 pub struct Parser<'a> {
@@ -37,6 +40,7 @@ impl<'a> ParserToken<'a> {
 }
 
 #[derive(Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum PseudoClass {
     Hover,
     Active,
@@ -67,6 +71,7 @@ impl PseudoClass {
     }
 }
 
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Selector<'a> {
     pub selector: &'a str,
     pub pseudo_class: Option<PseudoClass>,

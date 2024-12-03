@@ -1,3 +1,6 @@
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
+
 pub trait Easing {
     fn eval(&self, time: f64) -> f64;
     fn velocity(&self, time: f64) -> Option<f64> {
@@ -10,6 +13,7 @@ pub trait Easing {
 }
 
 #[derive(Debug, Clone, Copy)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Linear;
 impl Easing for Linear {
     fn eval(&self, time: f64) -> f64 {
@@ -18,6 +22,7 @@ impl Easing for Linear {
 }
 
 #[derive(Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct Transition {
     pub duration: u64,
 

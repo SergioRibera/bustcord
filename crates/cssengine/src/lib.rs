@@ -27,7 +27,7 @@ use lexer::Token;
 /// # Example
 /// ```
 /// let css = ".example { color: red; }";
-/// let rules = css_to_rules(css).expect("Failed to parse CSS");
+/// let rules = cssengine::css_to_rules(css).expect("Failed to parse CSS");
 /// ```
 #[must_use]
 pub fn css_to_rules(input: &str) -> Result<Vec<Rule<'_>>, Vec<SyntaxError>> {
