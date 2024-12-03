@@ -436,21 +436,20 @@ pub fn parse_border(s: &str) -> Option<BorderDef> {
 
 #[cfg(test)]
 mod tests {
-    use std::time::Duration;
+    use csscolorparser::Color;
 
-    use super::{
-        get_rgb_value, parse_border, parse_box_shadow_5, parse_duration, parse_rgb,
-        parse_rgb_alpha, parse_rgb_value, parse_rgba, BorderDef,
-    };
+    use crate::PxPct;
+
+    use super::{parse_border, parse_box_shadow_5, parse_duration, BorderDef};
 
     #[test]
     fn duration() {
         let sec = parse_duration("1s").unwrap();
-        assert!(sec == Duration::from_secs(1));
+        assert!(sec == 1000);
         let tenth_sec = parse_duration("0.1s").unwrap();
-        assert!(tenth_sec == Duration::from_millis(100));
+        assert!(tenth_sec == 100);
         let ms = parse_duration("150ms").unwrap();
-        assert!(ms == Duration::from_millis(150));
+        assert!(ms == 150);
         // This should fail
         let value = parse_duration("1");
         assert!(value.is_none());
@@ -460,44 +459,11 @@ mod tests {
     #[rustfmt::skip]
     fn border() {
         let v = parse_border("10px").unwrap();
-        assert!(v == BorderDef { width: Some(Px(10.0)), color: None });
+        assert!(v == BorderDef { width: Some(PxPct::Px(10.0)), color: None });
         let v = parse_border("10px red").unwrap();
-        assert!(v == BorderDef { width: Some(Px(10.0)), color: Some(Color::RED) });
+        assert!(v == BorderDef { width: Some(PxPct::Px(10.0)), color: Some(Color::new(1.0,0.0,0.0,1.0)) });
         let v = parse_border("red").unwrap();
-        assert!(v == BorderDef { width: None, color: Some(Color::RED) });
-    }
-
-    #[test]
-    fn rgb_alpha() {
-        let v = parse_rgb_alpha("0.1").unwrap();
-        assert!(v == 25);
-        let v = parse_rgb_alpha("1.1").unwrap();
-        assert!(v == 255);
-        let v = parse_rgb_alpha("0").unwrap();
-        assert!(v == 0);
-    }
-
-    #[test]
-    fn rgb_value() {
-        let v = parse_rgb_value("100").unwrap();
-        assert!(v == 100);
-        assert!(parse_rgb_value("300").is_none());
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn rgb() {
-        let v = parse_rgb("21, 22, 23").unwrap();
-        assert!(v == Color {r: 21, g: 22, b: 23, a: 255 });
-        assert!(parse_rgb("21, 22, 280").is_none());
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn rgba() {
-        let v = parse_rgba("21, 22, 23, 0.65").unwrap();
-        assert!(v == Color {r: 21, g: 22, b: 23, a: 165 });
-        assert!(parse_rgba("21, 22, 280, 0.1").is_none());
+        assert!(v == BorderDef { width: None, color: Some(Color::new(1.0, 0.0, 0.0, 1.0)) });
     }
 
     #[test]
@@ -507,12 +473,13 @@ mod tests {
         assert!(v.v_offset == PxPct::Px(8.0));
         assert!(v.blur_radius == PxPct::Px(10.0));
         assert!(v.spread == PxPct::Px(15.0));
-        assert!(v.color == Color::BLACK);
+        assert!(v.color == Color::new(0.0, 0.0, 0.0, 1.0));
         let v = parse_box_shadow_5(["green", "4px", "8px", "10px", "15px"]).unwrap();
+        println!("{v:?}");
         assert!(v.h_offset == PxPct::Px(4.0));
         assert!(v.v_offset == PxPct::Px(8.0));
         assert!(v.blur_radius == PxPct::Px(10.0));
         assert!(v.spread == PxPct::Px(15.0));
-        assert!(v.color == Color::GREEN);
+        assert!(v.color == Color::from_rgba8(0, 128, 0, 255));
     }
 }

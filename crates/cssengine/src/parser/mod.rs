@@ -120,18 +120,18 @@ impl<'a> From<&'a str> for Selector<'a> {
 }
 
 pub struct Rule<'a> {
-    pub selectors: SmallVec<[Selector<'a>; 4]>,
-    pub properties: SmallVec<[Cow<'a, str>; 4]>,
-    pub values: SmallVec<[Cow<'a, str>; 4]>,
+    pub selectors: SmallVec<[Selector<'a>; 1]>,
+    pub properties: SmallVec<[Cow<'a, str>; 1]>,
+    pub values: SmallVec<[Cow<'a, str>; 1]>,
 }
 
 impl Rule<'_> {
     #[must_use]
     pub const fn new_const() -> Self {
         Self {
-            selectors: SmallVec::<[Selector<'_>; 4]>::new_const(),
-            properties: SmallVec::<[Cow<'_, str>; 4]>::new_const(),
-            values: SmallVec::<[Cow<'_, str>; 4]>::new_const(),
+            selectors: SmallVec::<[Selector<'_>; 1]>::new_const(),
+            properties: SmallVec::<[Cow<'_, str>; 1]>::new_const(),
+            values: SmallVec::<[Cow<'_, str>; 1]>::new_const(),
         }
     }
 
