@@ -8,6 +8,7 @@ default = ["grid", "flexbox"]
 serde = ["smallvec/serde", "taffy/serde"]
 grid = ["taffy/grid"]
 flexbox = ["taffy/flexbox"]
+tailwind_colors = []
 
 [[bench]]
 name = "parser"

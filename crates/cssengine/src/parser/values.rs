@@ -2,6 +2,8 @@ use csscolorparser::Color;
 use smallvec::SmallVec;
 use taffy::{AlignContent, AlignItems, Display, FlexDirection, FlexWrap, JustifyContent, Position};
 
+#[cfg(feature = "tailwind_colors")]
+use crate::TAILWIND_COLORS;
 use crate::{
     BorderDef, BoxShadow, CursorIcon, Pct, Px, PxPct, PxPctAuto, TextOverflow, TextStyle,
     Transition, Weight, NAMED_COLORS,
@@ -95,6 +97,12 @@ pub fn parse_color(s: &str) -> Option<Color> {
     csscolorparser::parse(s)
         .ok()
         .or_else(|| NAMED_COLORS.get(&s).cloned())
+        .or_else(|| {
+            #[cfg(feature = "tailwind_colors")]
+            return TAILWIND_COLORS.get(&s).cloned();
+            #[cfg(not(feature = "tailwind_colors"))]
+            None
+        })
 }
 
 pub fn parse_px(s: &str) -> Option<Px> {

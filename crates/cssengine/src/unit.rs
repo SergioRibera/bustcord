@@ -6,6 +6,10 @@ mod text;
 use csscolorparser::Color;
 
 pub use color::NAMED_COLORS;
+
+#[cfg(feature = "tailwind_colors")]
+pub(crate) use color::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
+
 pub use cursor::*;
 pub use px::*;
 pub use text::{Style as TextStyle, TextOverflow, Weight};
@@ -14,13 +18,13 @@ pub use text::{Style as TextStyle, TextOverflow, Weight};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Auto;
 
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct BorderDef {
     pub width: Option<PxPct>,
     pub color: Option<Color>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct BoxShadow {
     pub blur_radius: PxPct,
     pub color: Color,
