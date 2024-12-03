@@ -6,6 +6,16 @@ use crate::{css_to_rules, Selector};
 #[cfg(feature = "tailwind_colors")]
 use crate::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 
+/// Represents a CSS style sheet with parsed rules and declarations.
+///
+/// # Fields
+/// - `rules`: A collection of selectors and their corresponding declarations.
+///
+/// # Example
+/// ```
+/// let css = ".example { color: red; }";
+/// let stylesheet = StyleSheet::from_css(css);
+/// ```
 pub struct StyleSheet<'a> {
     rules: SmallVec<[(Selector<'a>, SmallVec<[Declaration; 32]>); 32]>,
 }
@@ -17,7 +27,19 @@ impl<'a> StyleSheet<'a> {
         }
     }
 
-    /// Parse a CSS input string into a `StyleSheet`.
+    /// Creates a `StyleSheet` from a CSS input string.
+    ///
+    /// # Parameters
+    /// - `input`: The CSS input string.
+    ///
+    /// # Returns
+    /// A new `StyleSheet` instance containing the parsed rules.
+    ///
+    /// # Example
+    /// ```
+    /// let css = ".example { color: red; }";
+    /// let stylesheet = StyleSheet::from_css(css);
+    /// ```
     pub fn from_css(input: &'a str) -> Self {
         let rules = css_to_rules(input)
             .unwrap_or_default()
@@ -38,7 +60,23 @@ impl<'a> StyleSheet<'a> {
         Self { rules }
     }
 
-    /// Get the styles for a given component or class.
+    /// Retrieves the styles for a given selector.
+    ///
+    /// # Parameters
+    /// - `selector`: A CSS selector (e.g., `.class`, `#id`).
+    ///
+    /// # Returns
+    /// - `Some(SmallVec<Declaration>)` if styles exist for the selector.
+    /// - `None` if no matching styles are found.
+    ///
+    /// # Example
+    /// ```
+    /// let css = ".example { color: red; }";
+    /// let mut stylesheet = StyleSheet::from_css(css);
+    /// if let Some(styles) = stylesheet.get_styles(".example") {
+    ///     println!("Styles: {:?}", styles);
+    /// }
+    /// ```
     pub fn get_styles(&mut self, selector: &'a str) -> Option<SmallVec<[Declaration; 32]>> {
         if let Some((_, declarations)) = self
             .rules

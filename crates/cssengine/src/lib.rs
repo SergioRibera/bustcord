@@ -15,6 +15,20 @@ pub use unit::*;
 
 use lexer::Token;
 
+/// Parses a CSS string into a vector of rules.
+///
+/// # Parameters
+/// - `input`: The CSS input string.
+///
+/// # Returns
+/// - `Ok(Vec<Rule>)` if the input is successfully parsed.
+/// - `Err(Vec<SyntaxError>)` if there are syntax errors in the input.
+///
+/// # Example
+/// ```
+/// let css = ".example { color: red; }";
+/// let rules = css_to_rules(css).expect("Failed to parse CSS");
+/// ```
 #[must_use]
 pub fn css_to_rules(input: &str) -> Result<Vec<Rule<'_>>, Vec<SyntaxError>> {
     let tokens = Lexer::new(input).tokens();
