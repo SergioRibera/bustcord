@@ -11,7 +11,7 @@ pub use error::ParseError;
 pub use style::StyleSheet;
 
 pub(crate) use parser::*;
-pub(crate) use unit::*;
+pub use unit::*;
 
 use lexer::Token;
 

@@ -3,13 +3,12 @@ mod cursor;
 mod px;
 mod text;
 
-use csscolorparser::Color;
-
-pub use color::NAMED_COLORS;
+pub(crate) use color::NAMED_COLORS;
 
 #[cfg(feature = "tailwind_colors")]
 pub(crate) use color::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 
+pub use csscolorparser::Color;
 pub use cursor::*;
 pub use px::*;
 pub use text::{Style as TextStyle, TextOverflow, Weight};
