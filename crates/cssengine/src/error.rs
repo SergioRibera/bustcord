@@ -10,7 +10,7 @@ impl<'a> ParseError<'a> {
     }
 }
 
-impl std::fmt::Display for ParseError<'_> {
+impl core::fmt::Display for ParseError<'_> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}: {}", self.error, self.value)
     }

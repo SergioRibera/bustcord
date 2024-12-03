@@ -1,6 +1,5 @@
 use color::DynamicColor;
 use smallvec::SmallVec;
-use std::time::Duration;
 use taffy::{AlignContent, AlignItems, Display, FlexDirection, FlexWrap, JustifyContent, Position};
 
 use crate::{
@@ -371,17 +370,15 @@ pub fn parse_transition(s: &str) -> Option<(String, Transition)> {
     Some((key.to_string(), transition))
 }
 
-fn parse_duration(s: &str) -> Option<Duration> {
+fn parse_duration(s: &str) -> Option<u64> {
     if let Some(ms) = s.strip_suffix("ms") {
-        if let Ok(d) = ms.parse::<u64>() {
-            return Some(Duration::from_millis(d));
-        }
+        return ms.parse::<u64>().ok();
     }
     if let Some(seconds) = s.strip_suffix('s') {
         if let Ok(f) = seconds.parse::<f64>() {
             if f > 0. {
                 let ms = (f * 1000.) as u64;
-                return Some(Duration::from_millis(ms));
+                return Some(ms);
             }
         }
     }

@@ -1,5 +1,3 @@
-use std::time::Duration;
-
 pub trait Easing {
     fn eval(&self, time: f64) -> f64;
     fn velocity(&self, time: f64) -> Option<f64> {
@@ -21,14 +19,14 @@ impl Easing for Linear {
 
 #[derive(Clone, Debug)]
 pub struct Transition {
-    pub duration: Duration,
+    pub duration: u64,
 
     // TODO: implement more(?
     pub easing: Linear,
 }
 
 impl Transition {
-    pub fn new(duration: Duration) -> Self {
+    pub fn new(duration: u64) -> Self {
         Self {
             duration,
             easing: Linear,

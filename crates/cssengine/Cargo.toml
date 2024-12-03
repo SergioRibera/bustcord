@@ -4,14 +4,13 @@ version = "0.1.0"
 edition = "2021"
 
 [features]
-default = ["std", "grid", "flexbox"]
-std = ["taffy/std", "color/std"]
+default = ["grid", "flexbox"]
 serde = ["smallvec/serde", "taffy/serde"]
 grid = ["taffy/grid"]
 flexbox = ["taffy/flexbox"]
 
 [dependencies]
-color = { version = "0.1.0", default-features = false }
+color = { version = "0.1.0", default-features = false, features = ["std"] }
 smallvec = { version = "1.13.2", features = ["const_new"] }
 taffy = { version = "0.6.2", default-features = false, features = [
     "taffy_tree",
