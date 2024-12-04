@@ -1,7 +1,7 @@
 use smallvec::SmallVec;
 
 use crate::declaration::Declaration;
-use crate::{css_to_rules, Selector};
+use crate::{css_to_rules, PseudoClass, Selector};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -20,12 +20,11 @@ use crate::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 /// let stylesheet = cssengine::StyleSheet::from_css(css);
 /// ```
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
-pub struct StyleSheet<'a> {
-    #[cfg_attr(feature = "serde", serde(borrow))]
-    rules: SmallVec<[(Selector<'a>, SmallVec<[Declaration; 32]>); 32]>,
+pub struct StyleSheet {
+    rules: SmallVec<[(Selector, SmallVec<[Declaration; 32]>); 32]>,
 }
 
-impl<'a> StyleSheet<'a> {
+impl StyleSheet {
     pub const fn new_const() -> Self {
         Self {
             rules: SmallVec::new_const(),
@@ -45,7 +44,7 @@ impl<'a> StyleSheet<'a> {
     /// let css = ".example { color: red; }";
     /// let stylesheet = cssengine::StyleSheet::from_css(css);
     /// ```
-    pub fn from_css(input: &'a str) -> Self {
+    pub fn from_css<'a>(input: &'a str) -> Self {
         let rules = css_to_rules(input)
             .unwrap_or_default()
             .into_iter()
@@ -82,20 +81,43 @@ impl<'a> StyleSheet<'a> {
     ///     println!("Styles: {:?}", styles);
     /// }
     /// ```
-    pub fn get_styles(&mut self, selector: &'a str) -> Option<SmallVec<[Declaration; 32]>> {
-        if let Some((_, declarations)) = self
+    pub fn get_styles(
+        &mut self,
+        selector: impl AsRef<str>,
+    ) -> SmallVec<[(Option<PseudoClass>, SmallVec<[Declaration; 32]>); 4]> {
+        let selector = selector.as_ref();
+        // If I don't have this I would have to do things with the features macro and it doesn't look as nice.
+        #[allow(unused_mut)]
+        let mut found = self
             .rules
             .iter()
-            .find(|(sel, _)| sel.selector.contains(selector))
-        {
-            return Some(declarations.clone());
-        }
+            .filter_map(|(sel, decls)| {
+                if sel.selector.contains(selector) {
+                    Some((sel.pseudo_class.clone(), decls.clone()))
+                } else {
+                    None
+                }
+            })
+            .fold(SmallVec::new(), |mut acc, (pseudo_class, declarations)| {
+                if let Some(existing) = acc
+                    .iter_mut()
+                    .find(|(ps_class, _): &&mut (Option<_>, SmallVec<_>)| ps_class == &pseudo_class)
+                {
+                    // If the pseudo-class already exists, extend its declarations.
+                    existing.1.extend(declarations);
+                } else {
+                    // Otherwise, add it as a new entry.
+                    acc.push((pseudo_class, declarations));
+                }
+                acc
+            });
 
         #[cfg(feature = "tailwind_colors")]
         {
             let mut generated_declarations = SmallVec::<[Declaration; 32]>::new();
+            let selector = Selector::from(selector);
 
-            for token in selector.split_whitespace() {
+            for token in selector.selector.split_whitespace() {
                 let Some(class) = token.strip_prefix('.') else {
                     continue;
                 };
@@ -135,11 +157,11 @@ impl<'a> StyleSheet<'a> {
 
             if !generated_declarations.is_empty() {
                 self.rules
-                    .push((Selector::from(selector), generated_declarations.clone()));
-                return Some(generated_declarations);
+                    .push((selector.clone(), generated_declarations.clone()));
+                found.push((selector.pseudo_class, generated_declarations));
             }
         }
 
-        None
+        found
     }
 }

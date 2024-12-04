@@ -39,7 +39,7 @@ impl<'a> ParserToken<'a> {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub enum PseudoClass {
     Hover,
@@ -71,21 +71,22 @@ impl PseudoClass {
     }
 }
 
+#[derive(Clone, Debug, PartialEq)]
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
-pub struct Selector<'a> {
-    pub selector: &'a str,
+pub struct Selector {
+    pub selector: String,
     pub pseudo_class: Option<PseudoClass>,
 }
 
 fn split_value(value: &str) -> Selector {
     if let Some(colon_column) = value.find(':') {
         Selector {
-            selector: &value[..colon_column],
+            selector: value[..colon_column].to_owned(),
             pseudo_class: PseudoClass::parse_str(&value[colon_column..]),
         }
     } else {
         Selector {
-            selector: value,
+            selector: value.to_owned(),
             pseudo_class: None,
         }
     }
@@ -97,23 +98,23 @@ fn split_double_colon(value: &str) -> Selector {
     //           ^ find this
     if let Some(colon_column) = value[2..].find(':') {
         Selector {
-            selector: &value[..colon_column],
+            selector: value[..colon_column].to_owned(),
             pseudo_class: PseudoClass::parse_str(&value[colon_column..]),
         }
     } else {
         Selector {
-            selector: value,
+            selector: value.to_owned(),
             pseudo_class: None,
         }
     }
 }
 
-impl<'a> From<&'a str> for Selector<'a> {
+impl<'a> From<&'a str> for Selector {
     #[inline]
     fn from(value: &'a str) -> Self {
         if value == ":root" {
             return Self {
-                selector: value,
+                selector: value.to_owned(),
                 pseudo_class: None,
             };
         }
@@ -125,7 +126,7 @@ impl<'a> From<&'a str> for Selector<'a> {
 }
 
 pub struct Rule<'a> {
-    pub selectors: SmallVec<[Selector<'a>; 1]>,
+    pub selectors: SmallVec<[Selector; 1]>,
     pub properties: SmallVec<[Cow<'a, str>; 1]>,
     pub values: SmallVec<[Cow<'a, str>; 1]>,
 }
@@ -134,7 +135,7 @@ impl Rule<'_> {
     #[must_use]
     pub const fn new_const() -> Self {
         Self {
-            selectors: SmallVec::<[Selector<'_>; 1]>::new_const(),
+            selectors: SmallVec::<[Selector; 1]>::new_const(),
             properties: SmallVec::<[Cow<'_, str>; 1]>::new_const(),
             values: SmallVec::<[Cow<'_, str>; 1]>::new_const(),
         }
@@ -300,7 +301,7 @@ mod tests {
         let rules = vec![
             Rule {
                 selectors: SmallVec::from_vec(vec![Selector {
-                    selector: ":root",
+                    selector: ":root".to_owned(),
                     pseudo_class: None,
                 }]),
                 properties: SmallVec::from_buf([Cow::Borrowed("--main-color")]),
@@ -308,7 +309,7 @@ mod tests {
             },
             Rule {
                 selectors: SmallVec::from_buf([Selector {
-                    selector: ".button",
+                    selector: ".button".to_owned(),
                     pseudo_class: None,
                 }]),
                 properties: SmallVec::from_buf([Cow::Borrowed("background-color")]),

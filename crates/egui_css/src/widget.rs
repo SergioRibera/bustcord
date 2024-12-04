@@ -60,24 +60,24 @@ impl<W: Widget> ToString for StyledWidget<W> {
     }
 }
 
-// Honestly, I'm not proud, if you can think of something better, the PR's are open
-fn to_static_str(input: &str) -> &'static str {
-    Box::leak(input.to_owned().into_boxed_str())
-}
-
 impl<W: Widget> Widget for StyledWidget<W> {
     fn ui(self, ui: &mut Ui) -> Response {
         let mut end_space = None;
-        if let Some(style) = crate::GLOBAL_STYLES
-            .lock()
-            .as_mut()
-            .and_then(|style| style.get_styles(to_static_str(&self.to_string())))
-        {
-            for decl in style.iter() {
-                apply_style(decl.clone(), ui);
-                if let Declaration::Margin(v) = decl {
-                    let available = ui.available_size();
-                    end_space.replace(pxpct_auto(available, Orientation::Both, v.clone()));
+        if let Some(style) = crate::GLOBAL_STYLES.lock().as_mut().and_then(|style| {
+            let styles = style.get_styles(self.to_string());
+            if !styles.is_empty() {
+                return Some(styles);
+            }
+            None
+        }) {
+            for (ps_class, decls) in style.iter() {
+                println!("{ps_class:?}");
+                for decl in decls {
+                    apply_style(decl.clone(), ui);
+                    if let Declaration::Margin(v) = decl {
+                        let available = ui.available_size();
+                        end_space.replace(pxpct_auto(available, Orientation::Both, v.clone()));
+                    }
                 }
             }
         } else {
