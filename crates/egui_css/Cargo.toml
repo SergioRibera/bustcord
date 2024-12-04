@@ -6,3 +6,6 @@ edition = "2021"
 [dependencies]
 egui.workspace = true
 cssengine = { version = "0.1.0", path = "../cssengine", features = ["tailwind_colors"] }
+
+[dev-dependencies]
+eframe.workspace = true
