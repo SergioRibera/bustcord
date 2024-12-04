@@ -928,9 +928,9 @@ dependencies = [
 name = "egui_css"
 version = "0.1.0"
 dependencies = [
+ "cssengine",
+ "eframe",
  "egui",
- "smallvec",
- "taffy",
 ]
 
 [[package]]
