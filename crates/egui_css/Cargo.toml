@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 egui.workspace = true
+smallvec = { version = "1.13.2" }
 cssengine = { version = "0.1.0", path = "../cssengine", features = ["tailwind_colors"] }
 
 [dev-dependencies]

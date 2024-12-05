@@ -115,13 +115,25 @@ pub fn apply_style(decl: Declaration, ui: &mut Ui) {
                 ui.set_max_height(pxpct_auto(available, Orientation::Vertical, v));
             }
         }
-        Declaration::BorderColor(c) => ui.visuals_mut().window_stroke.color = into_color(c),
+        Declaration::BorderColor(c) => {
+            let visuals = ui.visuals_mut();
+            let c = into_color(c);
+            visuals.window_stroke.color = c;
+            visuals.widgets.active.bg_stroke.color = c;
+        }
         Declaration::Border(b) => {
             if let Some(color) = b.color {
-                ui.visuals_mut().window_stroke.color = into_color(color);
+                let visuals = ui.visuals_mut();
+                let c = into_color(color);
+                visuals.window_stroke.color = c;
+                visuals.widgets.active.bg_stroke.color = c;
             }
             if let Some(w) = b.width {
-                ui.visuals_mut().window_stroke.width = pxpct(available, Orientation::Both, w);
+                let visuals = ui.visuals_mut();
+                let w = pxpct(available, Orientation::Both, w);
+                visuals.window_stroke.width = w;
+                visuals.widgets.active.bg_stroke.width = w;
+                ui.visuals_mut().window_stroke.width = w;
             }
         }
         Declaration::BorderWidth(v) => ui.visuals_mut().window_stroke.width = v.0,
@@ -170,6 +182,7 @@ pub fn apply_style(decl: Declaration, ui: &mut Ui) {
             visuals.panel_fill = v;
             visuals.window_fill = v;
             visuals.faint_bg_color = v;
+            visuals.widgets.active.bg_fill = v;
         }
         Declaration::BoxShadow(b) => {
             let b = into_box(available, b);

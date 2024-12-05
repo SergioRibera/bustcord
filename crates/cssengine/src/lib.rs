@@ -8,6 +8,7 @@ pub mod error;
 pub use animation::*;
 pub use declaration::Declaration;
 pub use error::ParseError;
+pub use parser::PseudoClass;
 pub use style::StyleSheet;
 
 pub(crate) use parser::*;

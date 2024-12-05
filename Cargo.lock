@@ -931,6 +931,7 @@ dependencies = [
  "cssengine",
  "eframe",
  "egui",
+ "smallvec",
 ]
 
 [[package]]

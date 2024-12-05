@@ -23,6 +23,7 @@ impl MainApp {
               color: purple;
               padding: 20px;
               background-color: black;
+              height: 50px;
             }
 
             #counter {
@@ -30,6 +31,14 @@ impl MainApp {
               background-color: white;
               padding: 20px;
               margin: 20px;
+            }
+
+            #counter:hover {
+              color: purple;
+            }
+
+            .header:hover {
+              color: blue;
             }
         "#,
         ));
