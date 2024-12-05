@@ -92,7 +92,10 @@ impl StyleSheet {
             .rules
             .iter()
             .filter_map(|(sel, decls)| {
-                if sel.selector.contains(selector) {
+                if selector
+                    .split_whitespace()
+                    .any(|s| sel.selector.contains(s.trim()))
+                {
                     Some((sel.pseudo_class.clone(), decls.clone()))
                 } else {
                     None
