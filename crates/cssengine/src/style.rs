@@ -22,12 +22,14 @@ use crate::{TAILWIND_COLORS, TAILWIND_NAME_COLORS};
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 pub struct StyleSheet {
     rules: SmallVec<[(Selector, SmallVec<[Declaration; 32]>); 32]>,
+    tmp_generated: SmallVec<[Declaration; 32]>,
 }
 
 impl StyleSheet {
     pub const fn new_const() -> Self {
         Self {
             rules: SmallVec::new_const(),
+            tmp_generated: SmallVec::new_const(),
         }
     }
 
@@ -61,7 +63,10 @@ impl StyleSheet {
             .flatten()
             .collect();
 
-        Self { rules }
+        Self {
+            rules,
+            tmp_generated: SmallVec::new(),
+        }
     }
 
     /// Retrieves the styles for a given selector.
@@ -116,8 +121,12 @@ impl StyleSheet {
             });
 
         #[cfg(feature = "tailwind_colors")]
+        if !found.is_empty() {
+            return found;
+        }
+
+        #[cfg(feature = "tailwind_colors")]
         {
-            let mut generated_declarations = SmallVec::<[Declaration; 32]>::new();
             let selector = Selector::from(selector);
 
             for token in selector.selector.split_whitespace() {
@@ -154,15 +163,17 @@ impl StyleSheet {
                         "outline" => Declaration::OutlineColor(color),
                         _ => continue,
                     };
-                    generated_declarations.push(declaration);
+                    self.tmp_generated.push(declaration);
                 }
             }
 
-            if !generated_declarations.is_empty() {
+            if !self.tmp_generated.is_empty() {
                 self.rules
-                    .push((selector.clone(), generated_declarations.clone()));
-                found.push((selector.pseudo_class, generated_declarations));
+                    .push((selector.clone(), self.tmp_generated.clone()));
+                found.push((selector.pseudo_class, self.tmp_generated.clone()));
             }
+
+            self.tmp_generated.clear();
         }
 
         found
