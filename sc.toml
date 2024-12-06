@@ -1,0 +1,34 @@
+# This is manifest for simple-commits a tool to make easy conventional commits
+# https://github.com/romancitodev/simple-commits
+
+[git]
+skip_preview = true
+skip_emojis = true
+
+[[scopes]]
+name = "nix"
+description = "Modify nix environment"
+
+[[scopes]]
+name = "cssengine"
+description = "Modify cssengine"
+
+[[scopes]]
+name = "egui_css"
+description = "egui_css related"
+
+[[scopes]]
+name = "app"
+description = "App logic related"
+
+[[scopes]]
+name = "layout"
+description = "Layouts related"
+
+[[scopes]]
+name = "component"
+description = "Componentes related"
+
+[[scopes]]
+name = "service"
+description = "Services and Api connection related"
