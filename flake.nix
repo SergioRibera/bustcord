@@ -71,8 +71,9 @@
         devShells.default = craneLib.devShell {
           inherit buildInputs;
 
-          packages = [
+          packages = with pkgs; [
             toolchain
+            heaptrack
           ];
 
           LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath libraries}";
