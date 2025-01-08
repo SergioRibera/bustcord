@@ -37,8 +37,8 @@ fn main() {
     ];
 
     for class in &classes {
-        if let Some(styles) = stylesheet.get_styles(class) {
-            println!("{class:?}");
+        println!("{class:?}");
+        for (_class, styles) in stylesheet.get_styles(class) {
             for style in styles {
                 if let Declaration::BackgroundColor(c) = &style {
                     println!("\tBackgroundColor({})", c.to_hex_string());
@@ -50,8 +50,6 @@ fn main() {
                 }
                 println!("\t{style:?}");
             }
-        } else {
-            println!("No styles found for the given selector ({class}).");
         }
     }
 }
