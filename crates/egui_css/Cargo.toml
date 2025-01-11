@@ -23,3 +23,4 @@ cssengine = { version = "0.1.0", path = "../cssengine" }
 
 [dev-dependencies]
 eframe.workspace = true
+egui_extras = {version = "0.29", default-features = false, features = ["syntect"]}
