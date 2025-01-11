@@ -1,4 +1,4 @@
-# egui_css: A Styling Framework for egui
+# egui_css: A Styling Framework for egui (Very very very WIP)
 
 **egui_css** is an extension for [egui](https://github.com/emilk/egui), a Rust-based immediate mode GUI library. This framework introduces a cascading style sheet (CSS) approach to styling, allowing developers to define styles declaratively for their egui applications.
 
