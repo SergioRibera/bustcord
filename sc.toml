@@ -10,14 +10,6 @@ name = "nix"
 description = "Modify nix environment"
 
 [[scopes]]
-name = "cssengine"
-description = "Modify cssengine"
-
-[[scopes]]
-name = "egui_css"
-description = "egui_css related"
-
-[[scopes]]
 name = "app"
 description = "App logic related"
 

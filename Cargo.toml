@@ -8,14 +8,13 @@ resolver = "2"
 members = [
     "crates/app",
     "crates/common",
-    "crates/components", "crates/cssengine",
-    "crates/egui_css",
+    "crates/components",
     "crates/layouts",
 ]
 
 [workspace.dependencies]
 egui = "0.29"
-egui_css = { path = "./crates/egui_css" }
+egui_css = "0.1"
 eframe = { version = "0.29", default-features = false, features = [
     "accesskit",
     "default_fonts",
